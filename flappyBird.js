@@ -14,9 +14,10 @@ function game() {
     color: '#e7e55c',
   }
   //Pipes
-  const pipesMoveSpeed = -3;
+  const pipesMoveSpeed = -2;
   const safeZone = 100;
-  const pipeColor ='#009900';
+  const pipeColor = '#009900';
+  const pipeWidth = 80;
   const pipes = [{ x: 600, topHeight: 150, }, { x: 800, topHeight: 100 }, { x: 1000, topHeight: 160 }]
 
   function drawBird() {
@@ -28,10 +29,19 @@ function game() {
     bird.y = bird.fallSpeed + bird.y;
   }
 
+  function generatePipe() {
+    const newPipe = { x: pipes[pipes.length - 1].x + 200, topHeight: Math.random() * 130 + 30 };
+    pipes.push(newPipe);
+  }
+
+  function deletePipe() {
+    if (pipes[0].x < -80) pipes.shift()
+  }
+
   function drawPipes() {
-    pipes.forEach(p=>{
+    pipes.forEach(p => {
       ctx.beginPath();
-      ctx.rect(p.x, 0, 80, p.topHeight);
+      ctx.rect(p.x, 0, pipeWidth, p.topHeight);
       ctx.fillStyle = pipeColor;
       ctx.fill();
       ctx.closePath();
@@ -40,17 +50,18 @@ function game() {
       ctx.rect(
         p.x,
         p.topHeight + safeZone,
-        80,
+        pipeWidth,
         200
       );
       ctx.fillStyle = pipeColor;
       ctx.fill();
       ctx.closePath();
       p.x = p.x + pipesMoveSpeed
+
     })
   }
 
-  /*function isGameOver() {
+  function isGameOver() {
     //超出螢幕Game over
     if (
       bird.y + bird.size > canvas.height ||
@@ -58,29 +69,33 @@ function game() {
     ) {
       return true
     }
-    //撞上柱Game over
-    if (
-      bird.x + bird.size > pipesPositionX &&
-      bird.x < pipesPositionX + pipeWidth &&
-      bird.y - bird.size < pipeUpHeight
-    ) {
-      return true
+    for (let i = 0; i < pipes.length; i++) {
+      //撞上柱Game over
+      if (
+        bird.x + bird.size > pipes[i].x &&
+        bird.x < pipes[i].x + pipeWidth &&
+        bird.y - bird.size+1 < pipes[i].topHeight
+      ) {
+        return true
+      }
+      //撞下柱Game over
+      if (
+        bird.x + bird.size > pipes[i].x &&
+        bird.x < pipes[i].x + pipeWidth &&
+        bird.y + bird.size > pipes[i].topHeight + safeZone
+      ) {
+        return true
+      }
     }
-    //撞下柱Game over
-    if (
-      bird.x + bird.size > pipesPositionX &&
-      bird.x < pipesPositionX + pipeWidth &&
-      bird.y + bird.size > pipeUpHeight + safeZone
-    ) {
-      return true
-    }
-  }*/
+  }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (pipes.length < 8) generatePipe()
     drawPipes();
     drawBird();
-    //if (isGameOver()) clearInterval(interval);
+    deletePipe()
+    if (isGameOver()) clearInterval(interval);
   }
 
   document.addEventListener("mousedown", e => {
