@@ -3,9 +3,12 @@ let countHighScore = 0;
 highScore.innerHTML = `BEST: ${countHighScore}`
 
 function game() {
+  //restartButton
+  closeRestartButton()
   //canvas
   const canvas = document.getElementById("game");
   const ctx = canvas.getContext("2d");
+  
   //frame
   const fps = 60;
   const interval = setInterval(draw, 1000 / fps);
@@ -106,13 +109,26 @@ function game() {
     }
   }
 
+  function showRestartButton() {
+    const restartButton = document.getElementById("restart");
+    restartButton.setAttribute("style","display:inline-block;")
+  }
+
+  function closeRestartButton() {
+    const restartButton = document.getElementById("restart");
+    restartButton.setAttribute("style", "display:none;")
+  }
+
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (pipes.length < 8) generatePipe()
     drawPipes();
     drawBird();
     deletePipe()
-    if (isGameOver()) clearInterval(interval);
+    if (isGameOver()) {
+      clearInterval(interval)
+      showRestartButton()
+    };
   }
 
   document.addEventListener("mousedown", e => {

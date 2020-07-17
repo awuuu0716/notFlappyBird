@@ -27,6 +27,7 @@
     .restart {
       width: 100px;
       height: 50px;
+      display: none;
     }
 
   </style>
@@ -36,7 +37,7 @@
   <canvas id="game" width="480" height="320"></canvas>
   <h1 class="score" id="score"></h1>
   <h2 id="highScore"></h2>
-  <div class="button-wrapper"><button class="restart" onclick="game()">Restart</button></div>
+  <div class="button-wrapper"><button class="restart" id="restart" onclick="game()">Restart</button></div>
 
   <script type="text/javascript" src="flappyBird.js"></script>
 </body>
