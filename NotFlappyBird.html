@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>NotFlappyBird</title>
+  <style>
+    canvas {
+      background: #7aa6f7;
+      display: block;
+      margin: 0 auto;
+    }
+
+    body {
+      font-family: impact;
+       letter-spacing: 1px;
+      text-align: center;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+    }
+
+    .button-wrapper {
+      text-align: center;
+    }
+
+    .restart {
+      width: 100px;
+      height: 50px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <canvas id="game" width="480" height="320"></canvas>
+  <h1 class="score" id="score"></h1>
+  <h2 id="highScore"></h2>
+  <div class="button-wrapper"><button class="restart" onclick="game()">Restart</button></div>
+
+  <script type="text/javascript" src="flappyBird.js"></script>
+</body>
+
+</html>

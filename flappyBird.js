@@ -1,10 +1,18 @@
+const highScore = document.getElementById("highScore")
+let countHighScore = 0;
+highScore.innerHTML = `BEST: ${countHighScore}`
+
 function game() {
   //canvas
-  const canvas = document.getElementById("FB");
+  const canvas = document.getElementById("game");
   const ctx = canvas.getContext("2d");
   //frame
   const fps = 60;
   const interval = setInterval(draw, 1000 / fps);
+  //score
+  const score = document.getElementById("score")
+  let countScore = 0;
+  score.innerHTML = `SCORE: ${countScore}`
   //Bird
   const bird = {
     x: canvas.width / 2,
@@ -38,6 +46,15 @@ function game() {
     if (pipes[0].x < -80) pipes.shift()
   }
 
+  function getScore() {
+    countScore += 1;
+    score.innerHTML = `SCORE: ${countScore}`
+    if (countScore > countHighScore) {
+      countHighScore = countScore;
+      highScore.innerHTML = `BEST: ${countHighScore}`
+    }
+  }
+
   function drawPipes() {
     pipes.forEach(p => {
       ctx.beginPath();
@@ -57,7 +74,7 @@ function game() {
       ctx.fill();
       ctx.closePath();
       p.x = p.x + pipesMoveSpeed
-
+      if (p.x + 80 === bird.x) getScore()
     })
   }
 
@@ -74,7 +91,7 @@ function game() {
       if (
         bird.x + bird.size > pipes[i].x &&
         bird.x < pipes[i].x + pipeWidth &&
-        bird.y - bird.size+1 < pipes[i].topHeight
+        bird.y - bird.size + 1 < pipes[i].topHeight
       ) {
         return true
       }
