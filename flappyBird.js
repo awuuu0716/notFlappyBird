@@ -8,7 +8,7 @@ function game() {
   //canvas
   const canvas = document.getElementById("game");
   const ctx = canvas.getContext("2d");
-  
+
   //frame
   const fps = 60;
   const interval = setInterval(draw, 1000 / fps);
@@ -46,7 +46,7 @@ function game() {
   }
 
   function deletePipe() {
-    if (pipes[0].x < -80) pipes.shift()
+    if (pipes[0].x < -80) pipes.shift();
   }
 
   function getScore() {
@@ -54,7 +54,7 @@ function game() {
     score.innerHTML = `SCORE: ${countScore}`
     if (countScore > countHighScore) {
       countHighScore = countScore;
-      highScore.innerHTML = `BEST: ${countHighScore}`
+      highScore.innerHTML = `BEST: ${countHighScore}`;
     }
   }
 
@@ -110,24 +110,28 @@ function game() {
   }
 
   function showRestartButton() {
+    console.log("show");
     const restartButton = document.getElementById("restart");
-    restartButton.setAttribute("style","display:inline-block;")
+    restartButton.setAttribute("style", "display:inline-block;");
+    console.log("showend");
   }
 
   function closeRestartButton() {
+    console.log("close");
     const restartButton = document.getElementById("restart");
-    restartButton.setAttribute("style", "display:none;")
+    restartButton.setAttribute("style", "display:none;");
+    console.log("closeEnd");
   }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (pipes.length < 8) generatePipe()
+    if (pipes.length < 8) generatePipe();
     drawPipes();
     drawBird();
-    deletePipe()
+    deletePipe();
     if (isGameOver()) {
-      clearInterval(interval)
-      showRestartButton()
+      clearInterval(interval);
+      showRestartButton();
     };
   }
 
@@ -140,4 +144,4 @@ function game() {
   });
 }
 
-game()
+game();
